@@ -8,8 +8,10 @@ const { isDark, toggleDarkMode } = useDarkMode()
 </script>
 
 <template>
-  <div class="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
-    <nav class="bg-white dark:bg-gray-800 shadow-md">
+  <div
+    class="min-h-screen bg-gray-100 text-gray-900 dark:bg-gray-900 dark:text-gray-100 transition-colors"
+  >
+    <nav class="bg-white dark:bg-gray-800 shadow-md transition-colors">
       <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
         <RouterLink
           to="/"
