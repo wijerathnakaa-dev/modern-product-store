@@ -14,12 +14,13 @@ export function useProducts() {
       loading.value = true
       error.value = ''
 
-      console.log('Fetching products from dummyjson.com...')
       const response = await fetch('https://dummyjson.com/products?limit=100')
-      const data: ProductsResponse = await response.json()
+      if (!response.ok) {
+        throw new Error(`Products fetch failed: ${response.status}`)
+      }
 
-      console.log('Products fetched successfully (up to 100):', data.products.length)
-      products.value = data.products.length
+      const data: ProductsResponse = await response.json()
+      let sortedProducts = data.products.length
         ? data.products
         : [
             {
@@ -36,6 +37,65 @@ export function useProducts() {
               images: ['https://i.dummyjson.com/data/products/1/1.jpg'],
             },
           ]
+
+      const normalizeCategory = (category: string): string => {
+        let normalized = category
+          .toLowerCase()
+          .replace(/^mens-/, '')
+          .replace(/^womens-/, '')
+          .replace(/^girls-/, '')
+
+        if (
+          normalized === 'woman' ||
+          normalized === 'women' ||
+          normalized === 'girl' ||
+          normalized === 'girls'
+        ) {
+          normalized = 'clothes'
+        }
+
+        return normalized
+      }
+
+      sortedProducts = sortedProducts.map((product) => ({
+        ...product,
+        category: normalizeCategory(product.category),
+      }))
+
+      // Remove groceries from the site
+      sortedProducts = sortedProducts.filter(
+        (product) => !['groceries', 'grocery'].includes(product.category.toLowerCase()),
+      )
+
+      // Sort products: prioritize clothing and furniture categories first
+      const priorityCategories = [
+        'furniture',
+        'home-decoration',
+        'lighting',
+        'clothes',
+        'tops',
+        'dresses',
+        'shirts',
+        'shoes',
+        'watches',
+        'bags',
+        'jewellery',
+        'sunglasses',
+      ]
+
+      sortedProducts.sort((a, b) => {
+        const aIsPriority = priorityCategories.some((cat) => a.category.toLowerCase().includes(cat))
+        const bIsPriority = priorityCategories.some((cat) => b.category.toLowerCase().includes(cat))
+        if (aIsPriority && !bIsPriority) return -1
+        if (!aIsPriority && bIsPriority) return 1
+        return a.category.localeCompare(b.category)
+      })
+
+      console.log('Total products:', sortedProducts.length, 'Unique categories:', [
+        ...new Set(sortedProducts.map((p) => p.category)),
+      ])
+
+      products.value = sortedProducts
     } catch (err) {
       error.value = 'Failed to fetch products'
       console.error('ERROR fetching products:', err)

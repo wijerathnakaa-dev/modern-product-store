@@ -15,6 +15,11 @@ onMounted(async () => {
   try {
     loading.value = true
     const response = await fetch(`https://dummyjson.com/products/${route.params.id}`)
+
+    if (!response.ok) {
+      throw new Error(`Product details fetch failed: ${response.status}`)
+    }
+
     product.value = await response.json()
   } catch (err) {
     error.value = 'Failed to load product details'

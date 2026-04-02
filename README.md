@@ -1,48 +1,87 @@
 # modern-product-store
 
-This template should help get you started developing with Vue 3 in Vite.
+A responsive Vue 3 e-commerce product browser with bookmarking and dark mode support.
 
-## Recommended IDE Setup
+## 📌 Project Overview
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+`modern-product-store` is a small demo app that shows:
 
-## Recommended Browser Setup
+- product listing with search/filter by category
+- product details page with add/remove bookmark
+- bookmark page for saved products
+- dark/light mode toggle with persist in `localStorage`
+- Tailwind CSS v4 `dark:` manual class variant support
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
+## ✨ Features implemented
 
-## Type Support for `.vue` Imports in TS
+- product fetch from `dummyjson.com`
+- category filtering and search
+- responsive product grid with hover transitions
+- product details view and stock/rating display
+- bookmark management with Pinia store
+- dark mode toggle + persistence
+- route-aware navigation and accessible colors
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+## 🛠️ Tech stack
 
-## Customize configuration
+- Vue 3 + `<script setup>`
+- Vite
+- TypeScript
+- Pinia
+- Vue Router
+- Tailwind CSS v4
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+## 🚀 Install and run
 
-## Project Setup
-
-```sh
+```bash
 npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
 npm run dev
 ```
 
-### Type-Check, Compile and Minify for Production
+Build production bundle:
 
-```sh
+```bash
 npm run build
 ```
 
-### Lint with [ESLint](https://eslint.org/)
+Type-check and lint:
 
-```sh
+```bash
+npm run type-check
 npm run lint
 ```
+
+## 🗺️ Routes
+
+- `/` → Home product listing
+- `/product/:id` → Product details
+- `/bookmarks` → Bookmarks list
+
+## 🧩 Component structure
+
+- `src/App.vue` — layout, navbar, theme toggle, content wrapper
+- `src/pages/HomePage.vue` — search, filter, list
+- `src/pages/ProductDetailsPage.vue` — details card + bookmark
+- `src/pages/BookmarksPage.vue` — favorites and navigation
+- `src/components/ProductGrid.vue` — responsive grid layout
+- `src/components/ProductCard.vue` — card presentation
+- `src/components/SearchBar.vue`, `src/components/CategoryFilter.vue`
+- `src/composables/useProducts.ts` — fetch + filter logic
+- `src/composables/useDarkMode.ts` — theme state + persistence
+- `src/stores/bookmarkStore.ts` — bookmark state
+
+## 🧹 Clean-up notes
+
+- removed unused `src/stores/counter.ts`
+- added error checks for fetch responses in `useProducts.ts` and `ProductDetailsPage.vue`
+- removed forced dark mode in `src/main.ts`
+- dark variant properly wired in `src/style.css` with `@custom-variant dark (&:where(.dark, .dark *));`
+
+## 📁 Submission checklist
+
+Included in repository:
+
+- `README.md`
+- `Report.pdf` (placeholder)
+- `prompts.txt` (placeholder)
+- all source code

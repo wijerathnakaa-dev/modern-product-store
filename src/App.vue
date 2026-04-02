@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { useRouter, useRoute } from 'vue-router'
+import { useRoute } from 'vue-router'
 import { useDarkMode } from './composables/useDarkMode'
 
-const router = useRouter()
 const route = useRoute()
 const { isDark, toggleDarkMode } = useDarkMode()
 </script>
@@ -42,6 +41,8 @@ const { isDark, toggleDarkMode } = useDarkMode()
       </div>
     </nav>
 
-    <router-view />
+    <main class="max-w-7xl mx-auto p-6">
+      <router-view />
+    </main>
   </div>
 </template>
