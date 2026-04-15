@@ -4,8 +4,7 @@ import SearchBar from '../components/SearchBar.vue'
 import CategoryFilter from '../components/CategoryFilter.vue'
 import { useProducts } from '../composables/useProducts'
 
-const { products, filteredProducts, loading, error, searchTerm, selectedCategory, categories } =
-  useProducts()
+const { filteredProducts, loading, error, searchTerm, selectedCategory, categories } = useProducts()
 </script>
 
 <template>
