@@ -9,19 +9,19 @@ const { filteredProducts, loading, error, searchTerm, selectedCategory, categori
 
 <template>
   <div class="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
-    <main class="max-w-7xl mx-auto p-6">
-      <div class="mb-8">
-        <h1 class="mb-2 text-3xl font-bold">ClickMart</h1>
-        <p class="text-gray-600 dark:text-gray-300">Browse and bookmark your favorite products</p>
+    <main class="max-w-7xl mx-auto p-6 animate-fade-in">
+      <div class="mb-10 text-center animate-slide-up">
+        <h1 class="mb-4 text-5xl font-black tracking-tight bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent drop-shadow-sm">Explore ClickMart</h1>
+        <p class="text-lg text-gray-500 dark:text-gray-400 max-w-2xl mx-auto font-medium">Discover premium products, exclusive deals, and build your personalized collection.</p>
       </div>
 
-      <div class="mb-6 gap-4 grid md:grid-cols-2">
+      <div class="mb-10 gap-6 grid md:grid-cols-2 bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700">
         <div>
-          <label class="mb-2 block text-sm font-medium">Search Products</label>
+          <label class="mb-2 block text-sm font-bold text-gray-700 dark:text-gray-300">Search Products</label>
           <SearchBar v-model="searchTerm" />
         </div>
         <div>
-          <label class="mb-2 block text-sm font-medium">Filter by Category</label>
+          <label class="mb-2 block text-sm font-bold text-gray-700 dark:text-gray-300">Filter by Category</label>
           <CategoryFilter v-model="selectedCategory" :categories="categories" />
         </div>
       </div>

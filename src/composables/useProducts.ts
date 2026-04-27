@@ -39,22 +39,43 @@ export function useProducts() {
           ]
 
       const normalizeCategory = (category: string): string => {
-        let normalized = category
-          .toLowerCase()
-          .replace(/^mens-/, '')
-          .replace(/^womens-/, '')
-          .replace(/^girls-/, '')
-
-        if (
-          normalized === 'woman' ||
-          normalized === 'women' ||
-          normalized === 'girl' ||
-          normalized === 'girls'
-        ) {
-          normalized = 'clothes'
+        const cat = category.toLowerCase()
+        
+        // Map raw API categories to common, user-friendly names
+        const categoryMap: Record<string, string> = {
+          'smartphones': 'Mobile Phones',
+          'laptops': 'Laptops & Computers',
+          'fragrances': 'Perfumes & Fragrances',
+          'skincare': 'Skin Care',
+          'home-decoration': 'Home Decor',
+          'furniture': 'Furniture',
+          'tops': 'Clothing',
+          'womens-dresses': 'Clothing',
+          'womens-shoes': 'Shoes & Footwear',
+          'mens-shirts': 'Clothing',
+          'mens-shoes': 'Shoes & Footwear',
+          'mens-watches': 'Watches',
+          'womens-watches': 'Watches',
+          'womens-bags': 'Bags & Accessories',
+          'womens-jewellery': 'Jewelry',
+          'sunglasses': 'Sunglasses',
+          'automotive': 'Automotive',
+          'motorcycle': 'Motorcycles',
+          'lighting': 'Lighting',
+          'tablets': 'Tablets',
+          'beauty': 'Beauty & Cosmetics',
+          'sports-accessories': 'Sports',
         }
 
-        return normalized
+        if (categoryMap[cat]) {
+          return categoryMap[cat]
+        }
+
+        // Fallback: capitalize words and remove hyphens
+        return cat
+          .split('-')
+          .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+          .join(' ')
       }
 
       sortedProducts = sortedProducts.map((product) => ({
@@ -67,28 +88,21 @@ export function useProducts() {
         (product) => !['groceries', 'grocery'].includes(product.category.toLowerCase()),
       )
 
-      // Sort products: prioritize clothing and furniture categories first
-      const priorityCategories = [
-        'furniture',
-        'home-decoration',
-        'lighting',
-        'clothes',
-        'tops',
-        'dresses',
-        'shirts',
-        'shoes',
-        'watches',
-        'bags',
-        'jewellery',
-        'sunglasses',
-      ]
-
+      // Sort products to maximize user attraction while keeping same types together
+      // Primary sort: group by category
+      // Secondary sort: sort by "attraction score" within the category
       sortedProducts.sort((a, b) => {
-        const aIsPriority = priorityCategories.some((cat) => a.category.toLowerCase().includes(cat))
-        const bIsPriority = priorityCategories.some((cat) => b.category.toLowerCase().includes(cat))
-        if (aIsPriority && !bIsPriority) return -1
-        if (!aIsPriority && bIsPriority) return 1
-        return a.category.localeCompare(b.category)
+        // Group by category first
+        if (a.category !== b.category) {
+          return a.category.localeCompare(b.category)
+        }
+
+        // Within the same category, use the attraction score
+        const attractionScoreA = (a.rating * 15) + a.discountPercentage
+        const attractionScoreB = (b.rating * 15) + b.discountPercentage
+        
+        // Sort descending by score
+        return attractionScoreB - attractionScoreA
       })
 
       console.log('Total products:', sortedProducts.length, 'Unique categories:', [

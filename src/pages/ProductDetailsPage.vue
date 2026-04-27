@@ -41,78 +41,97 @@ const toggleBookmark = (): void => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 p-6">
-    <button
-      @click="router.push('/')"
-      class="mb-4 rounded-xl bg-gray-400 px-4 py-2 text-white hover:bg-gray-500"
-    >
-      ← Back
-    </button>
+  <div class="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 p-6 animate-fade-in">
+    <div class="max-w-5xl mx-auto">
+      <button
+        @click="router.push('/')"
+        class="mb-6 inline-flex items-center gap-2 rounded-xl bg-white dark:bg-gray-800 px-5 py-2.5 font-semibold shadow-sm border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+      >
+        <span>←</span> Back to store
+      </button>
 
-    <p v-if="loading">Loading...</p>
-    <p v-else-if="error">{{ error }}</p>
-
-    <div
-      v-else-if="product"
-      class="mx-auto max-w-4xl rounded-2xl bg-white dark:bg-gray-800 p-6 shadow border border-gray-200 dark:border-gray-700"
-    >
-      <img
-        :src="product.thumbnail"
-        :alt="product.title"
-        class="mb-6 h-72 w-full rounded-xl object-cover"
-      />
-
-      <div class="mb-6 flex items-start justify-between">
-        <div>
-          <h1 class="text-3xl font-bold">{{ product.title }}</h1>
-          <p class="mt-2 text-xl text-blue-600 dark:text-blue-400 font-semibold">
-            {{ product.category }}
-          </p>
-          <p class="mt-2 text-gray-600 dark:text-gray-400">
-            Brand: <span class="font-semibold">{{ product.brand }}</span>
-          </p>
-        </div>
-        <button
-          @click="toggleBookmark"
-          :class="[
-            'rounded-xl px-6 py-3 text-white font-bold text-xl whitespace-nowrap',
-            bookmarkStore.isBookmarked(product.id)
-              ? 'bg-red-600 hover:bg-red-700'
-              : 'bg-blue-600 hover:bg-blue-700',
-          ]"
-        >
-          {{ bookmarkStore.isBookmarked(product.id) ? '★ Bookmarked' : '☆ Bookmark' }}
-        </button>
+      <div v-if="loading" class="flex justify-center items-center h-64">
+        <div class="w-12 h-12 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin"></div>
       </div>
+      <p v-else-if="error" class="text-center text-red-500 bg-red-50 p-6 rounded-2xl">{{ error }}</p>
 
-      <div class="mb-6 border-b pb-6">
-        <p class="mb-4 text-lg text-gray-700 dark:text-gray-300">{{ product.description }}</p>
-      </div>
+      <div
+        v-else-if="product"
+        class="rounded-3xl bg-white dark:bg-gray-800 shadow-xl border border-gray-100 dark:border-gray-700 overflow-hidden animate-slide-up"
+      >
+        <div class="grid md:grid-cols-2 gap-0">
+          <div class="bg-gray-100 dark:bg-gray-700 p-8 flex items-center justify-center relative group">
+            <div class="absolute inset-0 bg-gradient-to-tr from-blue-100/50 to-transparent dark:from-blue-900/20 mix-blend-overlay"></div>
+            <img
+              :src="product.thumbnail"
+              :alt="product.title"
+              class="w-full max-w-md object-contain drop-shadow-2xl group-hover:scale-105 transition-transform duration-500 ease-out z-10"
+            />
+          </div>
 
-      <div class="grid gap-6 md:grid-cols-2">
-        <div class="rounded-lg bg-gray-50 dark:bg-gray-700 p-4">
-          <h3 class="text-lg font-semibold mb-2">Price</h3>
-          <p class="text-3xl font-bold text-blue-600 dark:text-blue-400">${{ product.price }}</p>
-        </div>
-        <div class="rounded-lg bg-gray-50 dark:bg-gray-700 p-4">
-          <h3 class="text-lg font-semibold mb-2">Availability</h3>
-          <p
-            class="text-2xl font-semibold text-green-600 dark:text-green-400"
-            v-if="product.stock > 0"
-          >
-            {{ product.stock }} in stock
-          </p>
-          <p class="text-2xl font-semibold text-red-600 dark:text-red-400" v-else>Out of stock</p>
-        </div>
-        <div class="rounded-lg bg-gray-50 dark:bg-gray-700 p-4">
-          <h3 class="text-lg font-semibold mb-2">Rating</h3>
-          <p class="text-2xl font-semibold text-yellow-500">⭐ {{ product.rating }}/5</p>
-        </div>
-        <div class="rounded-lg bg-gray-50 dark:bg-gray-700 p-4">
-          <h3 class="text-lg font-semibold mb-2">Discount</h3>
-          <p class="text-2xl font-semibold text-orange-600 dark:text-orange-400">
-            {{ product.discountPercentage }}% off
-          </p>
+          <div class="p-8 lg:p-10 flex flex-col justify-center">
+            <div class="mb-6 flex items-start justify-between gap-4">
+              <div>
+                <h1 class="text-4xl font-black text-gray-900 dark:text-white leading-tight mb-2">{{ product.title }}</h1>
+                <p class="text-xl text-blue-600 dark:text-blue-400 font-bold uppercase tracking-wider text-sm">
+                  {{ product.category }}
+                </p>
+                <p class="mt-2 text-gray-500 dark:text-gray-400 font-medium">
+                  Brand: <span class="text-gray-900 dark:text-gray-200 font-bold">{{ product.brand }}</span>
+                </p>
+              </div>
+              <button
+                @click="toggleBookmark"
+                :class="[
+                  'rounded-2xl p-4 font-bold transition-all duration-300 shadow-sm flex items-center justify-center shrink-0',
+                  bookmarkStore.isBookmarked(product.id)
+                    ? 'bg-red-50 text-red-600 border-2 border-red-200 dark:bg-red-900/30 dark:border-red-800/50'
+                    : 'bg-white text-gray-400 border-2 border-gray-100 hover:border-gray-300 dark:bg-gray-800 dark:border-gray-700 dark:hover:border-gray-500',
+                ]"
+                title="Bookmark this item"
+              >
+                <span class="text-2xl" :class="{ 'scale-110': bookmarkStore.isBookmarked(product.id) }">{{ bookmarkStore.isBookmarked(product.id) ? '❤️' : '🤍' }}</span>
+              </button>
+            </div>
+
+            <div class="mb-8">
+              <p class="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">{{ product.description }}</p>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 mb-8">
+              <div class="rounded-2xl bg-gray-50 dark:bg-gray-700/50 p-5 border border-gray-100 dark:border-gray-700">
+                <h3 class="text-sm font-bold text-gray-500 dark:text-gray-400 mb-1">Price</h3>
+                <p class="text-3xl font-black text-gray-900 dark:text-white">${{ product.price }}</p>
+              </div>
+              <div class="rounded-2xl bg-gray-50 dark:bg-gray-700/50 p-5 border border-gray-100 dark:border-gray-700">
+                <h3 class="text-sm font-bold text-gray-500 dark:text-gray-400 mb-1">Availability</h3>
+                <p
+                  class="text-2xl font-black text-green-600 dark:text-green-400"
+                  v-if="product.stock > 0"
+                >
+                  {{ product.stock }} left
+                </p>
+                <p class="text-2xl font-black text-red-600 dark:text-red-400" v-else>Sold out</p>
+              </div>
+              <div class="rounded-2xl bg-gray-50 dark:bg-gray-700/50 p-5 border border-gray-100 dark:border-gray-700">
+                <h3 class="text-sm font-bold text-gray-500 dark:text-gray-400 mb-1">Rating</h3>
+                <div class="flex items-center gap-1">
+                  <span class="text-yellow-500 text-xl">⭐</span>
+                  <p class="text-2xl font-black text-gray-900 dark:text-white">{{ product.rating }}</p>
+                </div>
+              </div>
+              <div class="rounded-2xl bg-gray-50 dark:bg-gray-700/50 p-5 border border-gray-100 dark:border-gray-700">
+                <h3 class="text-sm font-bold text-gray-500 dark:text-gray-400 mb-1">Discount</h3>
+                <p class="text-2xl font-black text-orange-600 dark:text-orange-400">
+                  {{ product.discountPercentage }}% OFF
+                </p>
+              </div>
+            </div>
+
+            <button class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold text-lg py-4 rounded-2xl shadow-lg shadow-blue-500/30 transition-all active:scale-[0.98]">
+              Add to Cart
+            </button>
+          </div>
         </div>
       </div>
     </div>

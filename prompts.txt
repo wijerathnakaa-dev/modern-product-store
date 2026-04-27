@@ -1,0 +1,8 @@
+The aim 01: Ensure 100% Type Safety in the Vue 3 application
+Actual prompt: Review my Vue 3 Composition API project and ensure there are no 'any' types used. Create strict TypeScript interfaces for all API responses, specifically for the DummyJSON products and auth endpoints.
+
+The aim 02: Implement an Authentication Simulation using Pinia
+Actual prompt: Create a Pinia store to simulate user authentication using the dummyjson.com/auth/login endpoint. Store the returned JWT token in localStorage and manage a Log In / Log Out state across the application. Include a dedicated login page.
+
+The aim 03: Enhance UI/UX to a professional, premium standard
+Actual prompt: Upgrade the Tailwind CSS styling across the application to achieve an A+ Design System. Add custom animations like fade-in and slide-up, improve dark mode colors, and use glassmorphism effects on the navigation bar and product detail cards.
