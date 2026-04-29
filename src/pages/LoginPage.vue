@@ -6,8 +6,8 @@ import { useAuthStore } from '../stores/authStore'
 const router = useRouter()
 const authStore = useAuthStore()
 
-const username = ref('emilys')
-const password = ref('emilyspass')
+const username = ref('')
+const password = ref('')
 
 const handleLogin = async () => {
   const success = await authStore.login(username.value, password.value)
@@ -31,6 +31,7 @@ const handleLogin = async () => {
           <input
             v-model="username"
             type="text"
+            placeholder="Enter your username"
             class="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-shadow outline-none"
             required
           />
@@ -41,6 +42,7 @@ const handleLogin = async () => {
           <input
             v-model="password"
             type="password"
+            placeholder="Enter your password"
             class="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-shadow outline-none"
             required
           />
